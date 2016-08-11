@@ -1,0 +1,11 @@
+/*
+ * Copyright (c) Intel Corporation, 2016
+ *
+ * Implicit linker script to use Intel performance and size optimized
+ * math functions from libimf.a in place of standard C math library.
+ *
+ * If this behavior is not desired, just specify -lmath instead of -lm
+ */
+
+INPUT(-limf -lmath)
+

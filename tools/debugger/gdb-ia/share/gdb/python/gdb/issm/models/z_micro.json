@@ -1,0 +1,182 @@
+{
+  "Name"    : "Zephyr Micro Kernel",
+  "Version" : "v1.2.0",
+
+  "Tabs" : [
+     { "name" : "Overview",
+        "view" : "Tree",
+        "data" : [
+         { "Threads"         : ["*_nanokernel.threads", "*_nanokernel.current"]},
+         { "Tasks"           : ["*_k_current_task", "*_trace_list_micro_task"]},
+         { "Synchronization" : ["*_trace_list_micro_mutex", "*_trace_list_micro_sem", "*_trace_list_micro_event"]},
+         { "Data Passing"    : ["*_trace_list_micro_mbox" , "*_trace_list_micro_fifo", "*_trace_list_micro_pipe" , "*_trace_list_sys_ring_buf"]},
+         { "Memory Resources": ["*_trace_list_micro_mem_map", "*_trace_list_micro_mem_pool" ]},
+         { "Timers"          : ["*_trace_list_micro_timer"]}
+        ]
+     },
+
+     { "name": "Threads",
+        "view": "Table",
+        "column_keys"   : [
+          {"Name"      : "Name"},
+          {"context"   : "Context"},
+          {"prio"      : "Prio"},
+          {"flags"     : "Flags"},
+          {"coopReg"   : "CoopReg"},
+          {"preempReg" : "PreempReg"}
+         ],
+        "command" :
+          "z_tcs *_nanokernel.current *_nanokernel.threads next_thread prio flags coopReg preempReg"
+     },
+
+    { "name": "Tasks",
+        "view": "Table",
+        "column_keys"   : [
+          {"id"        : "ID"},
+          {"Name"      : "Name"},
+          {"state"     : "StateF"},
+          {"BreakF"    : "BreakF"},
+          {"WaitF"     : "WaitF"},
+          {"workspace" : "Workspace"},
+          {"priority"  : "Prio"},
+          {"group"     : "Group"}
+         ],
+        "command" :
+          "z_task *_k_current_task *_trace_list_micro_task __next id priority group workspace state"
+     },
+
+     {  "name": "Mutex",
+        "view": "Table",
+        "column_keys"   : [
+          {"Name" : "Name"},
+          {"level" : "Lock"},
+          {"owner" : "Owner" },
+          {"current_owner_priority" : "cPrio"},
+          {"waiters" : "Waiters"}
+         ],
+        "command" :
+          "print-plist *_trace_list_micro_mutex __next level owner current_owner_priority waiters"
+     },
+
+     {  "name": "Sem",
+        "view": "Table",
+        "column_keys"   : [
+          {"Name" : "Name"},
+          {"Addr" : "Addr" },
+          {"waiters" : "Waiter"},
+          {"level" : "Level" },
+          {"count" : "Count"}
+         ],
+        "command" :
+          "print-plist *_trace_list_micro_sem __next waiters level count"
+     },
+
+     {  "name": "Event",
+        "view": "Table",
+        "column_keys"   : [
+          {"Name"  : "Name"},
+          {"status": "Status" },
+          {"func"  : "Func" },
+          {"waiter": "Waiter"}
+         ],
+        "command" :
+          "print-plist *_trace_list_micro_event __next status func waiter"
+     },
+
+    {  "name": "Mbox",
+        "view": "Table",
+        "column_keys"   : [
+          {"Name" : "Name"},
+          {"count" : "Count" },
+          {"writers" : "Writers"},
+          {"readers" : "Readers" }
+         ],
+        "command" :
+          "print-plist *_trace_list_micro_mbox __next count writers readers"
+     },
+
+     {  "name": "Fifo",
+        "view": "Table",
+        "column_keys"   : [
+          {"Name" : "Name"},
+          {"element_size" : "eSize" },
+          {"num_used" : "Used"},
+          {"enqueue_point" : "enQueue" },
+          {"dequeue_point" : "deQueue"},
+          {"waiters" : "Waiter"}
+         ],
+        "command" :
+          "print-plist *_trace_list_micro_fifo __next element_size num_used enqueue_point dequeue_point waiters"
+     },
+
+     {  "name": "Pipe",
+        "view": "Table",
+        "column_keys"   : [
+          {"Name" : "Name"},
+          {"buffer_size" : "bSize" },
+          {"Buffer" : "Ptr"},
+          {"writers" : "Writers" },
+          {"readers" : "Readers"}
+         ],
+        "command" :
+          "print-plist *_trace_list_micro_pipe __next buffer_size Buffer writers readers"
+     },
+
+     {  "name": "RingBuf",
+        "view": "Table",
+        "column_keys"   : [
+          {"Name"              : "Name"},
+          {"size"              : "Size" },
+          {"dropped_put_count" : "Dropeed"},
+          {"head"              : "Head" },
+          {"tail"              : "Tail" },
+          {"buf"               : "Buf"}
+         ],
+        "command" :
+          "print-plist *_trace_list_sys_ring_buf __next size dropped_put_count head tail buf"
+     },
+
+      { "name": "MemMap",
+        "view": "Table",
+        "column_keys"   : [
+          {"Name" : "Name"},
+          {"Addr" : "Addr" },
+          {"base" : "BasePtr"},
+          {"free" : "FreePtr"},
+          {"element_size" : "eSize" },
+          {"waiters" : "Waiter" }
+         ],
+        "command" :
+          "print-plist *_trace_list_micro_mem_map __next base free element_size waiters"
+     },
+
+     { "name": "MemPool",
+        "view": "Table",
+        "column_keys"   : [
+          {"Name" : "Name"},
+          {"Addr" : "Addr" },
+          {"maxblock_size" : "maxSize"},
+          {"minblock_size" : "minSize" },
+          {"nr_of_frags" : "Fragments" },
+          {"total_mem" : "TotalMem" },
+          {"bufblock" : "BufBlock"},
+          {"waiters" : "Waiters" }
+         ],
+        "command" :
+          "print-plist *_trace_list_micro_mem_pool __next maxblock_size minblock_size nr_of_frags total_mem bufblock waiters"
+     },
+
+     { "name": "Timers",
+        "view": "Table",
+        "column_keys"   : [
+          {"Name" : "Name"},
+          {"duration" : "Duration" },
+          {"period"   : "Period" },
+          {"args"     : "Args" }
+         ],
+        "command" :
+          "print-plist *_trace_list_micro_timer __next duration period args"
+     }
+
+  ]
+}

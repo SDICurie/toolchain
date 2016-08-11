@@ -1,0 +1,107 @@
+{
+  "Name"   : "Zephyr Nano Kernel",
+  "Version": "v1.2.0",
+
+  "Tabs" : [
+
+     { "name" : "Overview",
+        "view" : "Tree",
+        "data" : [
+         { "Threads"         : ["*_nanokernel.threads", "*_nanokernel.current"]},
+         { "Synchronization" : ["*_trace_list_nano_sem"]},
+         { "Timers"          : ["*_trace_list_nano_timer"]},
+         { "Data Passing"    : ["*_trace_list_nano_fifo" , "*_trace_list_nano_lifo",
+                               "*_trace_list_nano_stack", "*_trace_list_sys_ring_buf"]}
+        ]
+     },
+
+     { "name": "Threads",
+        "view": "Table",
+        "column_keys"   : [
+          {"Name"    : "Name"},
+          {"context" : "Context"},
+          {"prio"    : "Prio"},
+          {"flags"   : "Flags"},
+          {"coopReg" : "coopReg"},
+          {"preempReg" : "PreempReg"}
+         ],
+        "command" :
+          "z_tcs *_nanokernel.current *_nanokernel.threads next_thread prio flags coopReg preempReg"
+     },
+
+    { "name": "Timers",
+        "view": "Table",
+        "column_keys"   : [
+          {"Name" : "Name"},
+          {"timeout_data.delta_ticks_from_prev" : "Ticks" },
+          {"timeout_data.tcs" : "Thread - Owner" },
+          {"timeout_data.wait_q" : "WaitQ" },
+          {"user_data"           : "UserData" }
+         ],
+        "command" :
+          "print-plist *_trace_list_nano_timer __next user_data timeout_data.delta_ticks_from_prev timeout_data.tcs timeout_data.wait_q"
+     },
+
+     {  "name": "Sem",
+        "view": "Table",
+        "column_keys"   : [
+          {"Name"   : "Name"},
+          {"Addr"   : "Addr" },
+          {"wait_q" : "WaitQ"},
+          {"nsig"   : "Count"}
+         ],
+        "command" :
+          "print-plist *_trace_list_nano_sem __next wait_q nsig"
+     },
+
+     {  "name": "Fifo",
+        "view": "Table",
+        "column_keys"   : [
+          {"Name"   : "Name"},
+          {"Addr"   : "Addr" },
+          {"wait_q" : "WaitQ"},
+          {"data_q" : "DataQ"},
+          {"stat"   : "Stats"}
+         ],
+        "command" :
+          "print-plist *_trace_list_nano_fifo __next wait_q data_q stat"
+     },
+
+     {  "name": "Lifo",
+        "view": "Table",
+        "column_keys"   : [
+          {"Name"   : "Name"},
+          {"Addr"   : "Addr" },
+          {"wait_q" : "WaitQ"},
+          {"list" : "ListPtr"}
+         ],
+        "command" :
+          "print-plist *_trace_list_nano_lifo __next wait_q list"
+     },
+
+     {  "name": "Stack",
+        "view": "Table",
+        "column_keys"   : [
+          {"Name"             : "Name"},
+          {"nano_thread_id_t" : "Thread_ID" },
+          {"base"             : "base"},
+          {"next"             : "next"}
+         ],
+        "command" :
+          "print-plist *_trace_list_nano_stack __next nano_thread_id_t base next"
+     },
+
+     {  "name": "RingBuf",
+        "view": "Table",
+        "column_keys"   : [
+          {"Name" : "Name"},
+          {"head" : "Head"},
+          {"tail" : "Tail"},
+          {"size" : "Size"},
+          {"buf"  : "Buf" }
+         ],
+        "command" :
+          "print-plist *_trace_list_sys_ring_buf __next head tail size buf"
+     }
+  ]
+}

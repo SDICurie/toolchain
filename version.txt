@@ -1,0 +1,10 @@
+Archive Created: 2016-05-12 13:55
+
+ARC Toolchain SHAs
+--
+GCC      - eac2ef4517fbb3c01c6ec0546df51702ffe24c41 - https://github.com/foss-for-synopsys-dwc-arc-processors/gcc
+CGEN     - eda052d5db32004d4a0d62b86d80072132c2c855 - https://github.com/foss-for-synopsys-dwc-arc-processors/cgen
+NEWLIB   - d29df8eea94deda85a42f3f6e4ef36dd0b93c883 - https://github.com/foss-for-synopsys-dwc-arc-processors/newlib
+GDB      - 9ee9b7212ea0068190a4becc8d788e752cc7aec9 - https://github.com/foss-for-synopsys-dwc-arc-processors/binutils-gdb
+BINUTILS - bcbe0bfce780e426f2e3b78013cb49326ee76824 - https://github.com/foss-for-synopsys-dwc-arc-processors/binutils-gdb
+
